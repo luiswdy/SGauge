@@ -1,0 +1,6 @@
+framework module SGauge {
+  umbrella header "SGauge-umbrella.h"
+
+  export *
+  module * { export * }
+}

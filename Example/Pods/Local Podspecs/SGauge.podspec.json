@@ -1,0 +1,22 @@
+{
+  "name": "SGauge",
+  "version": "0.1.0",
+  "summary": "A simple and customizable gauge.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/<GITHUB_USERNAME>/SGauge",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "Luis Wu": "luis.wu@biideal.com.tw"
+  },
+  "source": {
+    "git": "https://github.com/<GITHUB_USERNAME>/SGauge.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "SGauge/Classes/**/*"
+}

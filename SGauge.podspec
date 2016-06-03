@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
   s.name             = 'SGauge'
   s.version          = '0.1.0'
-  s.summary          = 'A short description of SGauge.'
+  s.summary          = 'A simple and customizable gauge.'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -21,11 +21,11 @@ Pod::Spec.new do |s|
 TODO: Add long description of the pod here.
                        DESC
 
-  s.homepage         = 'https://github.com/<GITHUB_USERNAME>/SGauge'
+  s.homepage         = 'https://github.com/luiswdy/SGauge'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { 'Luis Wu' => 'luis.wu@biideal.com.tw' }
-  s.source           = { :git => 'https://github.com/<GITHUB_USERNAME>/SGauge.git', :tag => s.version.to_s }
+  s.author           = { 'Luis Wu' => 'lunarseawu@gmail.com }
+  s.source           = { :git => 'https://github.com/luiswdy/SGauge.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '8.0'

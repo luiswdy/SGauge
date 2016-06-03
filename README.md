@@ -22,7 +22,7 @@ pod "SGauge"
 
 ## Author
 
-Luis Wu, luis.wu@biideal.com.tw
+Luis Wu, lunarseawu@gmail.com
 
 ## License
 

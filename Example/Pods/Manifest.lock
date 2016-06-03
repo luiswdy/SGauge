@@ -1,0 +1,16 @@
+PODS:
+  - SGauge (0.1.0)
+
+DEPENDENCIES:
+  - SGauge (from `../`)
+
+EXTERNAL SOURCES:
+  SGauge:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  SGauge: f592d8bbaa2c70491634aec9de2f8d0315a2c05e
+
+PODFILE CHECKSUM: 3a9d0a288200b4028b254a7b92327c83b4f7c919
+
+COCOAPODS: 1.0.1
