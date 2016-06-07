@@ -127,10 +127,10 @@ public class SGauge: UIControl {
     }
     
     private func getRadius() -> CGFloat {
-        if self.bounds.size.width >= self.bounds.size.height * 2 {  // for a rectangle of 2(or more):1, use height as radius
+        if self.bounds.size.width / self.bounds.size.height > 2 { // width : height > 2
             return self.bounds.size.height - arcWidth / 2
-        } else {    // use width / 2 as radius
-            return self.bounds.size.width - arcWidth / 2
+        } else {
+            return self.bounds.size.width / 2 - arcWidth / 2
         }
     }
     
