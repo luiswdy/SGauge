@@ -18,6 +18,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         valueLabel.text = "\(valueSlider.value)"
+        demoGauge.value = CGFloat(valueSlider.value)
     }
 
     override func didReceiveMemoryWarning() {

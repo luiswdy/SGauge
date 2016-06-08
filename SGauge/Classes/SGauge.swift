@@ -24,11 +24,11 @@ public class SGauge: UIControl {
         static let Pi = CGFloat(M_PI)
         static let StartAngle = SGauge.degreeToRadian(210)
         static let EndAngle = SGauge.degreeToRadian(330)
-        static let DefaultArcWidth: CGFloat = 10
-        static let NeedleSpace: CGFloat = 1
+        static let DefaultArcWidth: CGFloat = 20
+        static let DefaultArcOutlineWidth: CGFloat = 2
         static let DefaultMaxValue: CGFloat = 100
         static let DefaultMinValue: CGFloat = 0
-        static let DefaultNeedleWidth: CGFloat = 1
+        static let DefaultNeedleWidth: CGFloat = 2
         static let DefaultRoundUpValue = false
         static let DefaultGraduationUnit:CGFloat = 10
         static let DefaultGraduationLength: Int = 10
@@ -39,11 +39,11 @@ public class SGauge: UIControl {
     
     @IBInspectable public var maxValue: CGFloat = Consts.DefaultMaxValue
     @IBInspectable public var minValue: CGFloat = Consts.DefaultMinValue
-    @IBInspectable public var arcColor: UIColor  = UIColor.orangeColor()
-    @IBInspectable public var arcOutlineColor: UIColor  = UIColor.whiteColor()
+    @IBInspectable public var arcColor: UIColor  = UIColor.clearColor()
+    @IBInspectable public var arcOutlineColor: UIColor  = UIColor.blackColor()
     @IBInspectable public var needleColor: UIColor = UIColor.redColor()
     @IBInspectable public var arcWidth: CGFloat = Consts.DefaultArcWidth
-    @IBInspectable public var arcOutlineWidth: CGFloat = Consts.DefaultArcWidth
+    @IBInspectable public var arcOutlineWidth: CGFloat = Consts.DefaultArcOutlineWidth
     @IBInspectable public var needleWidth: CGFloat = Consts.DefaultNeedleWidth
     @IBInspectable public var roundUpValue: Bool = Consts.DefaultRoundUpValue
     @IBInspectable public var graduationUnit: CGFloat = Consts.DefaultGraduationUnit
@@ -72,7 +72,7 @@ public class SGauge: UIControl {
         }
     }
     
-    func getGauge() -> CAShapeLayer {
+    private func getGauge() -> CAShapeLayer {
         let gaugeLayer = CAShapeLayer()
         gaugeLayer.frame = self.bounds
         
@@ -101,7 +101,7 @@ public class SGauge: UIControl {
         return gaugeLayer
     }
     
-    func resetLayers() {
+    private func resetLayers() {
         layer.sublayers = nil
         gaugeLayer = nil
         arcLayer = nil
@@ -127,10 +127,10 @@ public class SGauge: UIControl {
     }
     
     private func getRadius() -> CGFloat {
-        if self.bounds.size.width / self.bounds.size.height > 2 { // width : height > 2
-            return self.bounds.size.height - arcWidth / 2
+        if self.bounds.size.width / self.bounds.size.height > 2 { // width : height > 2 : 1
+            return self.bounds.size.height - arcWidth - arcOutlineWidth
         } else {
-            return self.bounds.size.width / 2 - arcWidth / 2
+            return self.bounds.size.width / 2 - arcWidth - arcOutlineWidth
         }
     }
     
@@ -167,8 +167,8 @@ public class SGauge: UIControl {
         let graduationPath = UIBezierPath()
         if (graduationUnit > 0) {
             for i in (minValue + graduationUnit).stride(to: maxValue, by: graduationUnit) {
-                let xStart = getAnchorPoint().x + (radius - CGFloat(arcWidth) / 2) * cos(CGFloat(Consts.StartAngle + i * unitAngle))
-                let yStart = getAnchorPoint().y + (radius - CGFloat(arcWidth) / 2) * sin(CGFloat(Consts.StartAngle + i * unitAngle))
+                let xStart = getAnchorPoint().x + (radius - arcWidth) * cos(CGFloat(Consts.StartAngle + i * unitAngle))
+                let yStart = getAnchorPoint().y + (radius - arcWidth) * sin(CGFloat(Consts.StartAngle + i * unitAngle))
                 let xEnd = xStart + CGFloat(graduationLength) * cos(CGFloat(Consts.StartAngle + i * unitAngle))
                 let yEnd = yStart + CGFloat(graduationLength) * sin(CGFloat(Consts.StartAngle + i * unitAngle))
                 graduationPath.moveToPoint(CGPoint(x: xStart, y: yStart))
@@ -192,13 +192,13 @@ public class SGauge: UIControl {
     private func getOutletPath(radius: CGFloat) -> CGPath {
         // inner arc
         let outlinePath = UIBezierPath(arcCenter: getAnchorPoint(),
-                                       radius: radius - CGFloat(arcWidth) / 2,
+                                       radius: radius - CGFloat(arcWidth),
                                        startAngle: CGFloat(Consts.StartAngle),
                                        endAngle: CGFloat(Consts.EndAngle),
                                        clockwise: true)
         // outer arc
         outlinePath.addArcWithCenter(getAnchorPoint(),
-                                     radius: radius + CGFloat(arcWidth / 2),
+                                     radius: radius + CGFloat(arcWidth),
                                      startAngle: CGFloat(Consts.EndAngle),
                                      endAngle: CGFloat(Consts.StartAngle),
                                      clockwise: false)
