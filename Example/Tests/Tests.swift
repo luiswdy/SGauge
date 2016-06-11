@@ -14,16 +14,46 @@ class Tests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        XCTAssert(true, "Pass")
+    func testValueLessThanMin() {
+        let gauge = SGauge()
+        gauge.minValue = 10
+        gauge.value = -10
+        XCTAssert(gauge.value == gauge.minValue)
     }
     
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measureBlock() {
-            // Put the code you want to measure the time of here.
-        }
+    func testValueGreaterThenMax() {
+        let gauge = SGauge()
+        gauge.maxValue = 10
+        gauge.value = 100
+        XCTAssert(gauge.value == gauge.maxValue)
     }
+    
+    func testNegativeAnimationDuration() {
+        let gauge = SGauge()
+        let originalDuration = gauge.animationDuration
+        gauge.animationDuration = -10
+        XCTAssert(gauge.animationDuration == originalDuration)
+    }
+    
+    func testNegativeArcWidth() {
+        let gauge = SGauge()
+        let originalArcWidth = gauge.arcWidth
+        gauge.arcWidth = -10
+        XCTAssert(gauge.arcWidth == originalArcWidth)
+    }
+    
+    func testNegativeArcOutlineWidth() {
+        let gauge = SGauge()
+        let originalArcOutlineWidth = gauge.arcOutlineWidth
+        gauge.arcOutlineWidth = -10
+        XCTAssert(gauge.arcOutlineWidth == originalArcOutlineWidth)
+    }
+    
+//    func testPerformanceExample() {
+//        // This is an example of a performance test case.
+//        self.measureBlock() {
+//            // Put the code you want to measure the time of here.
+//        }
+//    }
     
 }

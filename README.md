@@ -1,15 +1,18 @@
 # SGauge
 
-[![CI Status](http://img.shields.io/travis/Luis Wu/SGauge.svg?style=flat)](https://travis-ci.org/Luis Wu/SGauge)
+[![CI Status](http://img.shields.io/travis/Luis Wu/SGauge.svg?style=flat)](https://travis-ci.org/luiswdy/SGauge)
 [![Version](https://img.shields.io/cocoapods/v/SGauge.svg?style=flat)](http://cocoapods.org/pods/SGauge)
 [![License](https://img.shields.io/cocoapods/l/SGauge.svg?style=flat)](http://cocoapods.org/pods/SGauge)
 [![Platform](https://img.shields.io/cocoapods/p/SGauge.svg?style=flat)](http://cocoapods.org/pods/SGauge)
+![language](https://img.shields.io/badge/Language-%20Swift%20-orange.svg)
 
 ## Example
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
 ## Requirements
+
+-iOS SDK **9.0** or **later**
 
 ## Installation
 

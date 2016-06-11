@@ -52,6 +52,16 @@
                ReferencedContainer = "container:SGauge.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "E93E0EA21D0BA14D003B2F72"
+               BuildableName = "SGauge_ExampleUITests.xctest"
+               BlueprintName = "SGauge_ExampleUITests"
+               ReferencedContainer = "container:SGauge.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference

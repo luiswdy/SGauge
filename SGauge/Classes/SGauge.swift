@@ -11,6 +11,9 @@ import UIKit
 @IBDesignable
 public class SGauge: UIControl {
     private var _value: CGFloat = 0
+    private var _animationDuration: Double = Consts.DefaultAnimationDuration
+    private var _arcWidth: CGFloat = Consts.DefaultArcWidth
+    private var _arcOutlineWith: CGFloat = Consts.DefaultArcOutlineWidth
     
     // Main gauge layer
     private var gaugeLayer: CALayer!
@@ -25,10 +28,10 @@ public class SGauge: UIControl {
         static let StartAngle = SGauge.degreeToRadian(210)
         static let EndAngle = SGauge.degreeToRadian(330)
         static let DefaultArcWidth: CGFloat = 20
-        static let DefaultArcOutlineWidth: CGFloat = 2
+        static let DefaultArcOutlineWidth: CGFloat = 1
         static let DefaultMaxValue: CGFloat = 100
         static let DefaultMinValue: CGFloat = 0
-        static let DefaultNeedleWidth: CGFloat = 2
+        static let DefaultNeedleWidth: CGFloat = 1
         static let DefaultRoundUpValue = false
         static let DefaultGraduationUnit:CGFloat = 10
         static let DefaultGraduationLength: Int = 10
@@ -42,14 +45,41 @@ public class SGauge: UIControl {
     @IBInspectable public var arcColor: UIColor  = UIColor.clearColor()
     @IBInspectable public var arcOutlineColor: UIColor  = UIColor.blackColor()
     @IBInspectable public var needleColor: UIColor = UIColor.redColor()
-    @IBInspectable public var arcWidth: CGFloat = Consts.DefaultArcWidth
-    @IBInspectable public var arcOutlineWidth: CGFloat = Consts.DefaultArcOutlineWidth
+    @IBInspectable public var arcWidth: CGFloat {
+        get {
+            return _arcWidth
+        }
+        set (newValue) {
+            if newValue > 0 {
+                _arcWidth = newValue
+            }
+        }
+    }
+    @IBInspectable public var arcOutlineWidth: CGFloat {
+        get {
+            return _arcOutlineWith
+        }
+        set (newValue) {
+            if newValue > 0 {
+                _arcOutlineWith = newValue
+            }
+        }
+    }
     @IBInspectable public var needleWidth: CGFloat = Consts.DefaultNeedleWidth
     @IBInspectable public var roundUpValue: Bool = Consts.DefaultRoundUpValue
     @IBInspectable public var graduationUnit: CGFloat = Consts.DefaultGraduationUnit
     @IBInspectable public var graduationLength: Int = Consts.DefaultGraduationLength
     @IBInspectable public var additionalNeedleLength: Int = Consts.DefaultAdditionalNeedleLength
-    @IBInspectable public var animationDuration: Double = Consts.DefaultAnimationDuration
+    @IBInspectable public var animationDuration: Double {
+        get {
+            return _animationDuration
+        }
+        set (newValue) {
+            if newValue >= 0 {
+                _animationDuration = newValue
+            }
+        }
+    }
     public var value: CGFloat {
         get { return _value }
         set (newValue) {
