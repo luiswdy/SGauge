@@ -14,8 +14,8 @@ script:
 - pod lib lint
 
 notifications:
-	email:
-		recipients:
-			-lunarseawu@gmail.com
-		on_success: never
-		on_failure: change
+    email:
+        recipients:
+            - lunarseawu+SGauge@gmail.com
+        on_success: never # [always|never|change]
+        on_failure: change # [always|never|change]
