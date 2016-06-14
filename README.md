@@ -26,13 +26,12 @@ pod "SGauge"
 ## How to use
 1. Add an UIView from 'Object Library' of 'Utilities'
 
-	<img src="https://raw.githubusercontent.com/luiswdy/SGauge/master/Images/step_1_1.png">
 
-
-	<img src="https://raw.githubusercontent.com/luiswdy/SGauge/master/Images/step_1_2.png">
+	<img src="https://raw.githubusercontent.com/luiswdy/SGauge/master/Images/step_1.png">
 
 
 2. Click the view you've just added and set the both class and module of the view to 'SGauge'. You shall see the gauge then.
+
 
 	<img src="https://raw.githubusercontent.com/luiswdy/SGauge/master/Images/step_2.png">
 
@@ -40,13 +39,14 @@ pod "SGauge"
 3. Customize gauge's appearance through Attribute Inspector
 
 
-	<img src="https://raw.githubusercontent.com/luiswdy/SGauge/master/Images/step_2.png">
+	<img src="https://raw.githubusercontent.com/luiswdy/SGauge/master/Images/step_3.png">
 
 
 4. Declare a property of type SGauge with @IBOutlet qualifier in your view controller. For instance:
 	```
 	@IBOutlet var gauge: SGauge!
 	```
+	and then connect the gauge with the property through Interface Builder.
 5. To move the needle, simply assign a value to the gauge. For instance:
 	```
 	gauge.value = CGFloat(50)
