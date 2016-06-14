@@ -46,8 +46,8 @@ pod "SGauge"
 	```
 	@IBOutlet var gauge: SGauge!
 	```
-	and then connect the gauge with the property through Interface Builder.
-5. To move the needle, simply assign a value to the gauge. For instance:
+5. Connect the gauge with the property through Interface Builder.
+6. To move the needle, simply assign a value to the gauge. For instance:
 	```
 	gauge.value = CGFloat(50)
 	```
