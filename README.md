@@ -8,7 +8,7 @@
 
 ## Example
 
-To run the example project, clone the repo, and run `pod install` from the Example directory first.
+To run the example project, run `pod try SGauge`.
 
 ## Requirements
 
@@ -22,6 +22,51 @@ it, simply add the following line to your Podfile:
 ```ruby
 pod "SGauge"
 ```
+
+## How to use
+1. Add an UIView from 'Object Library' of 'Utilities'
+
+	<img src="https://raw.githubusercontent.com/luiswdy/SGauge/master/Images/step_1_1.png">
+
+
+	<img src="https://raw.githubusercontent.com/luiswdy/SGauge/master/Images/step_1_2.png">
+
+
+2. Click the view you've just added and set the both class and module of the view to 'SGauge'. You shall see the gauge then.
+
+	<img src="https://raw.githubusercontent.com/luiswdy/SGauge/master/Images/step_2.png">
+
+
+3. Customize gauge's appearance through Attribute Inspector
+
+
+	<img src="https://raw.githubusercontent.com/luiswdy/SGauge/master/Images/step_2.png">
+
+
+4. Declare a property of type SGauge with @IBOutlet qualifier in your view controller. For instance:
+	```
+	@IBOutlet var gauge: SGauge!
+	```
+5. To move the needle, simply assign a value to the gauge. For instance:
+	```
+	gauge.value = CGFloat(50)
+	```
+
+## Customizable attributes
+
+* Max Value: The maximum value expressible for the gauge (Default: 100).
+* Min Value: The minimum value expressible for the gauge (Default: 0).
+* Arc Color: The color of the arc of the gauge (Default: clear).
+* Arc Outline Color: The color of the outline of the arc (Default: black).
+* Needle Color: The color of the gauge's needle (Default: red).
+* Arc Width: The thickness of the arc (Default: 20).
+* Arc Outline Width: The thickness of the arc's outline (Default: 1).
+* Needle Width: The thickness of the needle (Default: 1).
+* Graduation Unit: The inteval between graduation marks, denoted by value (Default: 10).
+* Graduation Length: The length of graduation marks (Default: 10).
+* Additional Needle Length: You may change needle length by adjusting this value (Default: 0).
+* Animation Duration: The duration of needle's rotation when the gauge's value changed (Default: 0.1 sec).
+
 
 ## Author
 
