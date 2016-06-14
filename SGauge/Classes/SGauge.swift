@@ -32,7 +32,6 @@ public class SGauge: UIControl {
         static let DefaultMaxValue: CGFloat = 100
         static let DefaultMinValue: CGFloat = 0
         static let DefaultNeedleWidth: CGFloat = 1
-        static let DefaultRoundUpValue = false
         static let DefaultGraduationUnit:CGFloat = 10
         static let DefaultGraduationLength: Int = 10
         static let DefaultAdditionalNeedleLength: Int = 0
@@ -66,7 +65,6 @@ public class SGauge: UIControl {
         }
     }
     @IBInspectable public var needleWidth: CGFloat = Consts.DefaultNeedleWidth
-    @IBInspectable public var roundUpValue: Bool = Consts.DefaultRoundUpValue
     @IBInspectable public var graduationUnit: CGFloat = Consts.DefaultGraduationUnit
     @IBInspectable public var graduationLength: Int = Consts.DefaultGraduationLength
     @IBInspectable public var additionalNeedleLength: Int = Consts.DefaultAdditionalNeedleLength
@@ -90,8 +88,8 @@ public class SGauge: UIControl {
             
             let rotateAnimation = CABasicAnimation(keyPath: "transform.rotation")
             rotateAnimation.fillMode = kCAFillModeForwards
-            rotateAnimation.fromValue = valueToAngle(roundUpValue ? round(oldValue) : oldValue)
-            rotateAnimation.toValue = valueToAngle(roundUpValue ? round(newValue) : newValue)
+            rotateAnimation.fromValue = valueToAngle(oldValue)
+            rotateAnimation.toValue = valueToAngle(newValue)
             rotateAnimation.duration = CFTimeInterval(animationDuration)
             rotateAnimation.removedOnCompletion = false
             
@@ -197,8 +195,8 @@ public class SGauge: UIControl {
         let graduationPath = UIBezierPath()
         if (graduationUnit > 0) {
             for i in (minValue + graduationUnit).stride(to: maxValue, by: graduationUnit) {
-                let xStart = getAnchorPoint().x + (radius - arcWidth) * cos(CGFloat(Consts.StartAngle + i * unitAngle))
-                let yStart = getAnchorPoint().y + (radius - arcWidth) * sin(CGFloat(Consts.StartAngle + i * unitAngle))
+                let xStart = getAnchorPoint().x + (radius - arcWidth / 2) * cos(CGFloat(Consts.StartAngle + i * unitAngle))
+                let yStart = getAnchorPoint().y + (radius - arcWidth / 2) * sin(CGFloat(Consts.StartAngle + i * unitAngle))
                 let xEnd = xStart + CGFloat(graduationLength) * cos(CGFloat(Consts.StartAngle + i * unitAngle))
                 let yEnd = yStart + CGFloat(graduationLength) * sin(CGFloat(Consts.StartAngle + i * unitAngle))
                 graduationPath.moveToPoint(CGPoint(x: xStart, y: yStart))
@@ -222,13 +220,13 @@ public class SGauge: UIControl {
     private func getOutletPath(radius: CGFloat) -> CGPath {
         // inner arc
         let outlinePath = UIBezierPath(arcCenter: getAnchorPoint(),
-                                       radius: radius - CGFloat(arcWidth),
+                                       radius: radius - CGFloat(arcWidth) / 2,
                                        startAngle: CGFloat(Consts.StartAngle),
                                        endAngle: CGFloat(Consts.EndAngle),
                                        clockwise: true)
         // outer arc
         outlinePath.addArcWithCenter(getAnchorPoint(),
-                                     radius: radius + CGFloat(arcWidth),
+                                     radius: radius + CGFloat(arcWidth) / 2,
                                      startAngle: CGFloat(Consts.EndAngle),
                                      endAngle: CGFloat(Consts.StartAngle),
                                      clockwise: false)
