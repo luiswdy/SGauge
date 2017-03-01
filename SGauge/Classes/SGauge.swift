@@ -25,8 +25,8 @@ public class SGauge: UIControl {
     
     private struct Consts {
         static let Pi = CGFloat(M_PI)
-        static let StartAngle = SGauge.degreeToRadian(210)
-        static let EndAngle = SGauge.degreeToRadian(330)
+        static let DefaultStartAngle = SGauge.degreeToRadian(degree: 210)
+        static let DefaultEndAngle = SGauge.degreeToRadian(degree: 330)
         static let DefaultArcWidth: CGFloat = 20
         static let DefaultArcOutlineWidth: CGFloat = 1
         static let DefaultMaxValue: CGFloat = 100
@@ -38,12 +38,18 @@ public class SGauge: UIControl {
         static let DefaultAnimationDuration: Double = 0.1  // in sec
         static let RotationAnimationKey = "Rotate"
     }
-    
+
+    @IBInspectable public var startAngle: CGFloat = Consts.DefaultStartAngle {
+        didSet { startAngle = SGauge.degreeToRadian(degree: startAngle) }
+    }
+    @IBInspectable public var endAngle: CGFloat = Consts.DefaultEndAngle {
+        didSet { endAngle = SGauge.degreeToRadian(degree: endAngle) }
+    }
     @IBInspectable public var maxValue: CGFloat = Consts.DefaultMaxValue
     @IBInspectable public var minValue: CGFloat = Consts.DefaultMinValue
-    @IBInspectable public var arcColor: UIColor  = UIColor.clearColor()
-    @IBInspectable public var arcOutlineColor: UIColor  = UIColor.blackColor()
-    @IBInspectable public var needleColor: UIColor = UIColor.redColor()
+    @IBInspectable public var arcColor: UIColor  = UIColor.clear
+    @IBInspectable public var arcOutlineColor: UIColor  = UIColor.black
+    @IBInspectable public var needleColor: UIColor = UIColor.red
     @IBInspectable public var arcWidth: CGFloat {
         get {
             return _arcWidth
@@ -84,16 +90,16 @@ public class SGauge: UIControl {
             let oldValue = _value
             let newValue = newValue > maxValue ? maxValue : ( newValue < minValue ? minValue : newValue )
             
-            needleLayer?.removeAnimationForKey(Consts.RotationAnimationKey)
+            needleLayer?.removeAnimation(forKey: Consts.RotationAnimationKey)
             
             let rotateAnimation = CABasicAnimation(keyPath: "transform.rotation")
             rotateAnimation.fillMode = kCAFillModeForwards
-            rotateAnimation.fromValue = valueToAngle(oldValue)
-            rotateAnimation.toValue = valueToAngle(newValue)
+            rotateAnimation.fromValue = valueToAngle(value: oldValue)
+            rotateAnimation.toValue = valueToAngle(value: newValue)
             rotateAnimation.duration = CFTimeInterval(animationDuration)
-            rotateAnimation.removedOnCompletion = false
+            rotateAnimation.isRemovedOnCompletion = false
             
-            needleLayer?.addAnimation(rotateAnimation, forKey: Consts.RotationAnimationKey)
+            needleLayer?.add(rotateAnimation, forKey: Consts.RotationAnimationKey)
             
             _value = newValue > maxValue ? maxValue : ( newValue < minValue ? minValue : newValue ) // update _value
             
@@ -119,7 +125,7 @@ public class SGauge: UIControl {
         if needleLayer == nil {
             needleLayer = getNeedleLayer()
         }
-        
+ 
         // Processing main gauge layer
         gaugeLayer.addSublayer(arcLayer)
         gaugeLayer.addSublayer(outlineLayer)
@@ -147,7 +153,7 @@ public class SGauge: UIControl {
     }
     
     private func valueToAngle(value: CGFloat) -> CGFloat {
-        return value  * ((Consts.EndAngle - Consts.StartAngle) / (maxValue - minValue))
+        return value  * ((endAngle - startAngle) / (maxValue - minValue))
     }
     
     private static func degreeToRadian(degree: CGFloat) -> CGFloat {
@@ -165,55 +171,57 @@ public class SGauge: UIControl {
     private func getArcLayer() -> CAShapeLayer {
         let layer = CAShapeLayer()
         layer.frame = self.bounds
-        layer.fillColor = UIColor.clearColor().CGColor // to keep the layer clean (or it would fill with black)
-        layer.strokeColor = arcColor.CGColor
+        layer.fillColor = UIColor.clear.cgColor // to keep the layer clean (or it would fill with black)
+        layer.strokeColor = arcColor.cgColor
         layer.lineWidth = CGFloat(arcWidth)
-        layer.path = getArcPath(getRadius())
+        layer.path = getArcPath(radius: getRadius())
         return layer
     }
     
     private func getArcPath(radius: CGFloat) -> CGPath {
         return UIBezierPath(arcCenter: getAnchorPoint(),
                             radius: radius,
-                            startAngle: CGFloat(Consts.StartAngle),
-                            endAngle: CGFloat(Consts.EndAngle),
-                            clockwise: true).CGPath
+                            startAngle: CGFloat(startAngle),
+                            endAngle: CGFloat(endAngle),
+                            clockwise: true).cgPath
     }
     
     private func getGraduationLayer() -> CAShapeLayer {
         let layer = CAShapeLayer()
         layer.frame = self.bounds
-        layer.fillColor = UIColor.clearColor().CGColor
-        layer.strokeColor = arcOutlineColor.CGColor
+        layer.fillColor = UIColor.clear.cgColor
+        layer.strokeColor = arcOutlineColor.cgColor
         layer.lineWidth = CGFloat(arcOutlineWidth)
-        layer.path = getGraduationPath(getRadius())
+        layer.path = getGraduationPath(radius: getRadius())
         return layer
     }
     
     private func getGraduationPath(radius: CGFloat) -> CGPath {
-        let unitAngle = (Consts.EndAngle - Consts.StartAngle) / (maxValue - minValue)
+        let unitAngle = (endAngle - startAngle) / (maxValue - minValue)
         let graduationPath = UIBezierPath()
+        
         if (graduationUnit > 0) {
-            for i in (minValue + graduationUnit).stride(to: maxValue, by: graduationUnit) {
-                let xStart = getAnchorPoint().x + (radius - arcWidth / 2) * cos(CGFloat(Consts.StartAngle + i * unitAngle))
-                let yStart = getAnchorPoint().y + (radius - arcWidth / 2) * sin(CGFloat(Consts.StartAngle + i * unitAngle))
-                let xEnd = xStart + CGFloat(graduationLength) * cos(CGFloat(Consts.StartAngle + i * unitAngle))
-                let yEnd = yStart + CGFloat(graduationLength) * sin(CGFloat(Consts.StartAngle + i * unitAngle))
-                graduationPath.moveToPoint(CGPoint(x: xStart, y: yStart))
-                graduationPath.addLineToPoint(CGPoint(x: xEnd, y: yEnd))
+            for i in stride(from:CGFloat(minValue + graduationUnit), to: maxValue, by: graduationUnit) {
+                let xStart = getAnchorPoint().x + (radius - arcWidth / 2) * cos(CGFloat(startAngle + i * unitAngle))
+                let yStart = getAnchorPoint().y + (radius - arcWidth / 2) * sin(CGFloat(startAngle + i * unitAngle))
+                let xEnd = xStart + CGFloat(graduationLength) * cos(CGFloat(startAngle + i * unitAngle))
+                let yEnd = yStart + CGFloat(graduationLength) * sin(CGFloat(startAngle + i * unitAngle))
+                graduationPath.move(to: CGPoint(x: xStart, y: yStart))
+                graduationPath.addLine(to: CGPoint(x: xEnd, y: yEnd))
                 
             }
         }
-        return graduationPath.CGPath
+        
+        return graduationPath.cgPath
     }
     
     private func getOutlineLayer() -> CAShapeLayer {
         let layer = CAShapeLayer()
         layer.frame = self.bounds
-        layer.fillColor = UIColor.clearColor().CGColor
-        layer.strokeColor = arcOutlineColor.CGColor
+        layer.fillColor = UIColor.clear.cgColor
+        layer.strokeColor = arcOutlineColor.cgColor
         layer.lineWidth = CGFloat(arcOutlineWidth)
-        layer.path = getOutletPath(getRadius())
+        layer.path = getOutletPath(radius: getRadius())
         return layer
     }
     
@@ -221,25 +229,25 @@ public class SGauge: UIControl {
         // inner arc
         let outlinePath = UIBezierPath(arcCenter: getAnchorPoint(),
                                        radius: radius - CGFloat(arcWidth) / 2,
-                                       startAngle: CGFloat(Consts.StartAngle),
-                                       endAngle: CGFloat(Consts.EndAngle),
+                                       startAngle: CGFloat(startAngle),
+                                       endAngle: CGFloat(endAngle),
                                        clockwise: true)
         // outer arc
-        outlinePath.addArcWithCenter(getAnchorPoint(),
+        outlinePath.addArc(withCenter: getAnchorPoint(),
                                      radius: radius + CGFloat(arcWidth) / 2,
-                                     startAngle: CGFloat(Consts.EndAngle),
-                                     endAngle: CGFloat(Consts.StartAngle),
+                                     startAngle: CGFloat(endAngle),
+                                     endAngle: CGFloat(startAngle),
                                      clockwise: false)
-        outlinePath.closePath()
-        return outlinePath.CGPath
+        outlinePath.close()
+        return outlinePath.cgPath
     }
     
     private func getNeedleLayer() -> CAShapeLayer {
         let layer = CAShapeLayer()
         layer.frame = self.bounds
-        layer.path = getNeedlePath(getRadius())
-        layer.fillColor = UIColor.clearColor().CGColor
-        layer.strokeColor = needleColor.CGColor
+        layer.path = getNeedlePath(radius: getRadius())
+        layer.fillColor = UIColor.clear.cgColor
+        layer.strokeColor = needleColor.cgColor
         layer.anchorPoint = CGPoint(x: 0.5, y: 1.0)
         layer.frame = self.bounds // restore layer's frame so that it's position won't change after changing its anchorPoint
         layer.lineCap = kCALineCapRound
@@ -250,10 +258,10 @@ public class SGauge: UIControl {
     private func getNeedlePath(radius: CGFloat) -> CGPath {
         let needlePath = UIBezierPath()
         let needleLength = radius + CGFloat(additionalNeedleLength)
-        needlePath.moveToPoint(getAnchorPoint())  // move to the center of the view
-        needlePath.addLineToPoint( CGPoint(x: getAnchorPoint().x + needleLength * CGFloat(cos(Consts.StartAngle)),
-            y: getAnchorPoint().y + needleLength * CGFloat(sin(Consts.StartAngle))))
-        return needlePath.CGPath
+        needlePath.move(to: getAnchorPoint())  // move to the center of the view
+        needlePath.addLine( to: CGPoint(x: getAnchorPoint().x + needleLength * CGFloat(cos(startAngle)),
+            y: getAnchorPoint().y + needleLength * CGFloat(sin(startAngle))))
+        return needlePath.cgPath
     }
     
     private func getAnchorPoint() -> CGPoint {

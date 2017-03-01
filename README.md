@@ -72,6 +72,9 @@ pod "SGauge"
 
 Luis Wu, lunarseawu@gmail.com
 
+## Thanks to
+* Maxime LE COAT (https://github.com/Maximelc): migrated to Swift 3.0 syntax and improved on customizable start and end angles
+
 ## License
 
 SGauge is available under the MIT license. See the LICENSE file for more info.
