@@ -27,7 +27,7 @@ class ViewController: UIViewController {
     }
 
     
-    @IBAction func updateValue(sender: UISlider) -> Void {
+    @IBAction func updateValue(_ sender: UISlider) -> Void {
         sender.setValue(round(sender.value), animated: false)
         valueLabel.text = "\(sender.value)"
         demoGauge.value = CGFloat(sender.value)
