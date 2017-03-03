@@ -10,7 +10,7 @@ language: objective-c
 # - gem install cocoapods # Since Travis is not always on latest version
 # - pod install --project-directory=Example
 script:
-    - set -o pipefail && xcodebuild clean build test -workspace Example/SGauge.xcworkspace -scheme SGauge-Example -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
+    - set -o pipefail && xcodebuild clean build test -workspace Example/SGauge.xcworkspace -scheme SGauge-Example -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO -destination 'platform=iOS Simulator,name=iPhone 6,OS=10.1'
     - pod lib lint
 
 notifications:
