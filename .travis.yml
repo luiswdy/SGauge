@@ -3,7 +3,7 @@
 # * https://github.com/supermarin/xcpretty#usage
 
 osx_image: xcode8.2
-l1atform=iOS Simulator,name=iPhone 6,OS=10.2inguage: objective-c
+language: objective-c
 # cache: cocoapods
 # podfile: Example/Podfile
 # before_install:
